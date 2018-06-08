@@ -85,10 +85,21 @@ _PASCAL_VOC_SEG_INFORMATION = DatasetDescriptor(
     ignore_label=255,
 )
 
+_RGB_TRONDHEIM_16_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+        'train': 708,
+        'trainval': 100,
+        'val': 100,
+    },
+    num_classes=1, #one class  = buildings (other is determined as background)
+    ignore_label=255, #hva betyr dette?
+)
+
 
 _DATASETS_INFORMATION = {
     'cityscapes': _CITYSCAPES_INFORMATION,
     'pascal_voc_seg': _PASCAL_VOC_SEG_INFORMATION,
+    'RGB_Trondheim_16': _RGB_TRONDHEIM_16_INFORMATION
 }
 
 # Default file pattern of TFRecord of TensorFlow Example.

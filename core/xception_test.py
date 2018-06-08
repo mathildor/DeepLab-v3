@@ -17,7 +17,7 @@
 import numpy as np
 import tensorflow as tf
 
-from deeplab.core import xception
+from core import xception
 from tensorflow.contrib.slim.nets import resnet_utils
 
 slim = tf.contrib.slim
@@ -289,7 +289,7 @@ class XceptionNetworkTest(tf.test.TestCase):
         'xception/logits',
         'predictions',
     ]
-    self.assertItemsEqual(end_points.keys(), expected)
+    self.assertItemsEqual(list(end_points.keys()), expected)
 
   def testClassificationShapes(self):
     global_pool = True
@@ -309,7 +309,7 @@ class XceptionNetworkTest(tf.test.TestCase):
           'xception/middle_flow/block1': [2, 14, 14, 4],
           'xception/exit_flow/block1': [2, 7, 7, 8],
           'xception/exit_flow/block2': [2, 7, 7, 16]}
-      for endpoint, shape in endpoint_to_shape.iteritems():
+      for endpoint, shape in endpoint_to_shape.items():
         self.assertListEqual(end_points[endpoint].get_shape().as_list(), shape)
 
   def testFullyConvolutionalEndpointShapes(self):
@@ -330,7 +330,7 @@ class XceptionNetworkTest(tf.test.TestCase):
           'xception/middle_flow/block1': [2, 21, 21, 4],
           'xception/exit_flow/block1': [2, 11, 11, 8],
           'xception/exit_flow/block2': [2, 11, 11, 16]}
-      for endpoint, shape in endpoint_to_shape.iteritems():
+      for endpoint, shape in endpoint_to_shape.items():
         self.assertListEqual(end_points[endpoint].get_shape().as_list(), shape)
 
   def testAtrousFullyConvolutionalEndpointShapes(self):
@@ -352,7 +352,7 @@ class XceptionNetworkTest(tf.test.TestCase):
           'xception/middle_flow/block1': [2, 41, 41, 4],
           'xception/exit_flow/block1': [2, 41, 41, 8],
           'xception/exit_flow/block2': [2, 41, 41, 16]}
-      for endpoint, shape in endpoint_to_shape.iteritems():
+      for endpoint, shape in endpoint_to_shape.items():
         self.assertListEqual(end_points[endpoint].get_shape().as_list(), shape)
 
   def testAtrousFullyConvolutionalValues(self):
@@ -459,7 +459,7 @@ class XceptionNetworkTest(tf.test.TestCase):
           inputs,
           num_classes=10,
           reuse=True)
-    self.assertItemsEqual(end_points0.keys(), end_points1.keys())
+    self.assertItemsEqual(list(end_points0.keys()), list(end_points1.keys()))
 
 
 if __name__ == '__main__':

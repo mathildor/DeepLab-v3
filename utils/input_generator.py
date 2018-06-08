@@ -15,8 +15,8 @@
 """Wrapper for providing semantic segmentation data."""
 
 import tensorflow as tf
-from deeplab import common
-from deeplab import input_preprocess
+import common
+import input_preprocess
 
 slim = tf.contrib.slim
 
@@ -161,8 +161,8 @@ def get(dataset,
 
   return tf.train.batch(
       sample,
-      batch_size=batch_size,
+      batch_size= int(batch_size),
       num_threads=num_threads,
-      capacity=32 * batch_size,
+      capacity=32 * int(batch_size),
       allow_smaller_final_batch=not is_training,
       dynamic_pad=True)

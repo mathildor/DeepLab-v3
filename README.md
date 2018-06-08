@@ -1,4 +1,17 @@
-# DeepLab: Deep Labelling for Semantic Image Segmentation
+<!-- # Egne notater: 
+- Måtte oppgradere TF til 1.6.0
+- Grunnet at tf 1.6.0 ikke støtter alle cuda versjoner måtte jeg installere cuda 9.0: sudo apt-get -y install cuda-toolkit-9.0 -->
+
+This repo is a copy of the network (DeepLabv3+)[https://github.com/tensorflow/models/tree/master/research/deeplab] from google. I simply extracted the necessary code in order to run ut without having to download lots of unnecessary code. I did some refactoring in order for the network to read my own dataset.
+
+Changes done:
+
+- Set up to run on python 3
+- Added extra dataset
+
+# Info from the originial (repo)[https://github.com/tensorflow/models/tree/master/research/deeplab]
+
+## DeepLab: Deep Labelling for Semantic Image Segmentation
 
 DeepLab is a state-of-art deep learning model for semantic image segmentation,
 where the goal is to assign semantic labels (e.g., person, dog, cat and so on)
@@ -73,13 +86,13 @@ Some segmentation results on Flickr images:
     <img src="g3doc/img/vis3.png" width=600></br>
 </p>
 
-## Contacts (Maintainers)
+### Contacts (Maintainers)
 
 *   Liang-Chieh Chen, github: [aquariusjay](https://github.com/aquariusjay)
 *   YuKun Zhu, github: [yknzhu](https://github.com/YknZhu)
 *   George Papandreou, github: [gpapan](https://github.com/gpapan)
 
-## Tables of Contents
+### Tables of Contents
 
 Demo:
 
@@ -99,7 +112,7 @@ Misc:
 
 *   Please check <a href='g3doc/faq.md'>FAQ</a> if you have some questions before reporting the issues.<br>
 
-## Getting Help
+### Getting Help
 
 To get help with issues you may encounter while using the DeepLab Tensorflow
 implementation, create a new question on
@@ -111,7 +124,7 @@ tensorflow/models GitHub [issue
 tracker](https://github.com/tensorflow/models/issues), prefixing the issue name
 with "deeplab".
 
-## References
+### References
 
 1.  **Semantic Image Segmentation with Deep Convolutional Nets and Fully Connected CRFs**<br />
     Liang-Chieh Chen+, George Papandreou+, Iasonas Kokkinos, Kevin Murphy, Alan L. Yuille (+ equal

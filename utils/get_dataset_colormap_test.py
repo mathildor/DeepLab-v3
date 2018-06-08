@@ -18,7 +18,7 @@
 import numpy as np
 import tensorflow as tf
 
-from deeplab.utils import get_dataset_colormap
+from utils import get_dataset_colormap
 
 
 class VisualizationUtilTest(tf.test.TestCase):

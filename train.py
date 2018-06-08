@@ -18,11 +18,11 @@ See model.py for more details and usage.
 """
 
 import tensorflow as tf
-from deeplab import common
-from deeplab import model
-from deeplab.datasets import segmentation_dataset
-from deeplab.utils import input_generator
-from deeplab.utils import train_utils
+import common
+import model
+from datasets import segmentation_dataset
+from utils import input_generator
+from utils import train_utils
 from deployment import model_deploy
 
 slim = tf.contrib.slim
@@ -54,7 +54,7 @@ flags.DEFINE_integer('task', 0, 'The task ID.')
 
 # Settings for logging.
 
-flags.DEFINE_string('train_logdir', None,
+flags.DEFINE_string('train_logdir', './tmp',
                     'Where the checkpoint and logs are stored.')
 
 flags.DEFINE_integer('log_steps', 10,
@@ -111,12 +111,21 @@ flags.DEFINE_boolean('upsample_logits', True,
 
 # Settings for fine-tuning the network.
 
-flags.DEFINE_string('tf_initial_checkpoint', None,
+flags.DEFINE_string('tf_initial_checkpoint', './deeplabv3_pascal_trainval/model.ckpt.index',
                     'The initial checkpoint in tensorflow format.')
 
+
+""" When you want to fine-tune DeepLab on other datasets, there are a few cases:
+        You want to re-use ALL the trained weigths: set initialize_last_layer = True (last_layers_contain_logits_only does not matter in this case).
+        You want to re-use ONLY the network backbone (i.e., exclude ASPP, decoder and so on): set initialize_last_layer = False and last_layers_contain_logits_only = False.
+        You want to re-use ALL the trained weights EXCEPT the logits (since the num_classes may be different): set initialize_last_layer = False and last_layers_contain_logits_only = True. """
+
 # Set to False if one does not want to re-use the trained classifier weights.
-flags.DEFINE_boolean('initialize_last_layer', True,
+flags.DEFINE_boolean('initialize_last_layer', False,
                      'Initialize the last layer.')
+
+flags.DEFINE_boolean('last_layers_contain_logits_only', True,
+                     'Only consider logits as last layers or not.')
 
 flags.DEFINE_integer('slow_start_step', 0,
                      'Training model with small learning rate for few steps.')
@@ -148,13 +157,14 @@ flags.DEFINE_integer('output_stride', 16,
                      'The ratio of input to output spatial resolution.')
 
 # Dataset settings.
-flags.DEFINE_string('dataset', 'pascal_voc_seg',
+flags.DEFINE_string('dataset', 'RGB_Trondheim_16',
                     'Name of the segmentation dataset.')
 
 flags.DEFINE_string('train_split', 'train',
                     'Which split of the dataset to be used for training')
 
-flags.DEFINE_string('dataset_dir', None, 'Where the dataset reside.')
+flags.DEFINE_string('dataset_dir', './datasets/tfrecord',
+                    'Where the dataset reside.')
 
 
 def _build_deeplab(inputs_queue, outputs_to_num_classes, ignore_label):
@@ -190,7 +200,7 @@ def _build_deeplab(inputs_queue, outputs_to_num_classes, ignore_label):
       is_training=True,
       fine_tune_batch_norm=FLAGS.fine_tune_batch_norm)
 
-  for output, num_classes in outputs_to_num_classes.iteritems():
+  for output, num_classes in outputs_to_num_classes.items():
     train_utils.add_softmax_cross_entropy_loss_for_each_scale(
         outputs_to_scales_to_logits[output],
         samples[common.LABEL],
@@ -292,7 +302,8 @@ def main(unused_argv):
       summaries.add(tf.summary.scalar('total_loss', total_loss))
 
       # Modify the gradients for biases and last layer variables.
-      last_layers = model.get_extra_layer_scopes()
+      last_layers = model.get_extra_layer_scopes(
+          FLAGS.last_layers_contain_logits_only)
       grad_mult = train_utils.get_model_gradient_multipliers(
           last_layers, FLAGS.last_layer_gradient_multiplier)
       if grad_mult:

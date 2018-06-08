@@ -34,7 +34,7 @@ import tensorflow as tf
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_enum('image_format', 'png', ['jpg', 'jpeg', 'png'],
+tf.app.flags.DEFINE_enum('image_format', 'png', ['png'],
                          'Image format.')
 
 tf.app.flags.DEFINE_enum('label_format', 'png', ['png'],
@@ -51,7 +51,7 @@ _IMAGE_FORMAT_MAP = {
 class ImageReader(object):
   """Helper class that provides TensorFlow image coding utilities."""
 
-  def __init__(self, image_format='jpeg', channels=3):
+  def __init__(self, image_format='png', channels=3): #adding b before 'png' to explicitly say that it should be a byte string
     """Class constructor.
 
     Args:
@@ -65,7 +65,7 @@ class ImageReader(object):
       if self._image_format in ('jpeg', 'jpg'):
         self._decode = tf.image.decode_jpeg(self._decode_data,
                                             channels=channels)
-      elif self._image_format == 'png':
+      elif self._image_format == 'png': #adding b to explicitly say that it should be a byte string
         self._decode = tf.image.decode_png(self._decode_data,
                                            channels=channels)
 
@@ -129,6 +129,12 @@ def _bytes_list_feature(values):
 
 
 def image_seg_to_tfexample(image_data, filename, height, width, seg_data):
+  print('\n IMAGE SEG TO EXAMPLE')
+  print(filename)
+  filename = b'0'
+  print(filename)
+  fileformat = b'png'
+  
   """Converts one image/segmentation pair to tf example.
 
   Args:
@@ -144,13 +150,12 @@ def image_seg_to_tfexample(image_data, filename, height, width, seg_data):
   return tf.train.Example(features=tf.train.Features(feature={
       'image/encoded': _bytes_list_feature(image_data),
       'image/filename': _bytes_list_feature(filename),
-      'image/format': _bytes_list_feature(
-          _IMAGE_FORMAT_MAP[FLAGS.image_format]),
+      'image/format': _bytes_list_feature(fileformat),
       'image/height': _int64_list_feature(height),
       'image/width': _int64_list_feature(width),
       'image/channels': _int64_list_feature(3),
       'image/segmentation/class/encoded': (
           _bytes_list_feature(seg_data)),
       'image/segmentation/class/format': _bytes_list_feature(
-          FLAGS.label_format),
+          fileformat),
   }))

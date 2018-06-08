@@ -68,7 +68,7 @@ flags.DEFINE_bool('add_flipped_images', False,
 
 # Dataset settings.
 
-flags.DEFINE_string('dataset', 'pascal_voc_seg',
+flags.DEFINE_string('dataset', 'RGB_Trondheim_16',
                     'Name of the segmentation dataset.')
 
 flags.DEFINE_string('eval_split', 'val',
@@ -144,7 +144,7 @@ def main(unused_argv):
     metrics_to_values, metrics_to_updates = (
         tf.contrib.metrics.aggregate_metric_map(metric_map))
 
-    for metric_name, metric_value in metrics_to_values.iteritems():
+    for metric_name, metric_value in metrics_to_values.items():
       slim.summaries.add_scalar_summary(
           metric_value, metric_name, print_summary=True)
 

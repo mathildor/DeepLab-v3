@@ -17,8 +17,8 @@
 
 import tensorflow as tf
 
-from deeplab import common
-from deeplab import model
+import common
+import model
 
 
 class DeeplabModelTest(tf.test.TestCase):
@@ -73,7 +73,7 @@ class DeeplabModelTest(tf.test.TestCase):
             # Check computed results for each output type.
             for output in outputs_to_num_classes:
               scales_to_logits = outputs_to_scales_to_logits[output]
-              self.assertListEqual(sorted(scales_to_logits.keys()),
+              self.assertListEqual(sorted(list(scales_to_logits.keys())),
                                    sorted(expected_endpoints[i]))
 
               # Expected number of logits = len(image_pyramid) + 1, since the

@@ -44,7 +44,7 @@ def add_softmax_cross_entropy_loss_for_each_scale(scales_to_logits,
   if labels is None:
     raise ValueError('No label for softmax cross entropy loss.')
 
-  for scale, logits in scales_to_logits.iteritems():
+  for scale, logits in scales_to_logits.items():
     loss_scope = None
     if scope:
       loss_scope = '%s_%s' % (scope, scale)
