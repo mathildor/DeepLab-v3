@@ -2,14 +2,16 @@
 - Måtte oppgradere TF til 1.6.0
 - Grunnet at tf 1.6.0 ikke støtter alle cuda versjoner måtte jeg installere cuda 9.0: sudo apt-get -y install cuda-toolkit-9.0 -->
 
-This repo is a copy of the network (DeepLabv3+)[https://github.com/tensorflow/models/tree/master/research/deeplab] from google. I simply extracted the necessary code in order to run ut without having to download lots of unnecessary code. I did some refactoring in order for the network to read my own dataset.
+# NB! In progress
 
-Changes done:
+This repo is a copy of the network [DeepLabv3+](https://github.com/tensorflow/models/tree/master/research/deeplab) from google. I simply extracted the necessary code in order to run ut without having to download lots of unnecessary code.
+
+Changes done so far:
 
 - Set up to run on python 3
 - Added extra dataset
 
-# Info from the originial (repo)[https://github.com/tensorflow/models/tree/master/research/deeplab]
+# Info from the originial [repo](https://github.com/tensorflow/models/tree/master/research/deeplab):
 
 ## DeepLab: Deep Labelling for Semantic Image Segmentation
 
