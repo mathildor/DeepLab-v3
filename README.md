@@ -4,7 +4,7 @@
 
 # NB! In progress
 
-This repo is a copy of the network [DeepLabv3+](https://github.com/tensorflow/models/tree/master/research/deeplab) from google. I simply extracted the necessary code in order to run ut without having to download lots of unnecessary code.
+This repo is a copy of the network [DeepLabv3+](https://github.com/tensorflow/models/tree/master/research/deeplab) from google. I simply extracted the necessary code in order to run without having to download lots of unnecessary code.
 
 Changes done so far:
 
